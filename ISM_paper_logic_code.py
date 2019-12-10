@@ -25,6 +25,18 @@ class Graph:
                     reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j]) 
         return reach 
 
+def print_final_reachability(initial, final):
+    # print(initial)
+    for i in range(n): 
+            for j in range(n): 
+                if(final[i][j]==1 and initial[i][j]==0):
+                    print('1*',end=" ")
+                elif(final[i][j]==1):
+                    print('1',end=" ")
+                else:
+                    print('0',end=" ")
+            print("\n")
+
 def Level_Partioning(final):
     common_mat = []
     for i in range(n):
@@ -102,10 +114,9 @@ graph = np.loadtxt(area, usecols=range(n))
 
 g= Graph(n) 
 final = g.transitiveClosure(graph)
+temp = np.loadtxt(area, usecols=range(n))
+print_final_reachability(temp, final)
 Driving_power, Dependence_power = xandy(final)
-# print(Dependence_power)
-# print(Driving_power)
-# g.printSolution(final)
 
 common_mat = Level_Partioning(final)
 
