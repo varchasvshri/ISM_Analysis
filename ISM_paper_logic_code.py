@@ -1,5 +1,6 @@
 from collections import defaultdict 
 import numpy as np
+import matplotlib.pyplot as plt
 
 #Class to represent a graph 
 class Graph:  
@@ -78,6 +79,22 @@ def find_level(intersection_set, common_mat):
                 if x in i: i.remove(x)
     return levels
 
+def plot_it(Driving_power, Dependence_power):
+    plt.scatter(Dependence_power, Driving_power)   
+    for i, txt in enumerate(range(n)):
+        plt.annotate(txt+1, (Dependence_power[i], Driving_power[i]))
+
+    x1, y1 = [-1, n+1], [n/2, n/2]
+    x2, y2 = [n/2, n/2], [-1, n+1]
+    plt.plot(x1, y1, x2, y2)
+    
+    plt.xlim(0,n+1)
+    plt.ylim(0,n+1)
+    plt.xlabel('Dependence') 
+    plt.ylabel('Driving Power') 
+    plt.title('Micmac Analysis')
+    plt.show()    
+
 n = int(input('Dimension of your Initial Reachability matrix : '))
 area = input('name of input file : ')
 
@@ -86,7 +103,8 @@ graph = np.loadtxt(area, usecols=range(n))
 g= Graph(n) 
 final = g.transitiveClosure(graph)
 Driving_power, Dependence_power = xandy(final)
-
+# print(Dependence_power)
+# print(Driving_power)
 # g.printSolution(final)
 
 common_mat = Level_Partioning(final)
@@ -99,6 +117,5 @@ levels = find_level(intersection_set, common_mat)
 
 for i in range(n):
     print('Level in TISM for E%d is %d'%(i+1,levels[i]))
-# print(levels)
-# print(intersection_set)
-# print(common_mat)
+
+plot_it(Driving_power, Dependence_power)
