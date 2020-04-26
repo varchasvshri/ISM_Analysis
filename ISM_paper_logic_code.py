@@ -92,9 +92,19 @@ def find_level(intersection_set, common_mat):
     return levels
 
 def plot_it(Driving_power, Dependence_power):
-    plt.scatter(Dependence_power, Driving_power)   
+    plt.scatter(Dependence_power, Driving_power)
+    pts = dict() #pts is dictionary mapping from tuple of points to list of index corresponding to that
     for i, txt in enumerate(range(n)):
-        plt.annotate(txt+1, (Dependence_power[i], Driving_power[i]))
+    	t = (Dependence_power[i], Driving_power[i]) #t is placeholder variable for coordinate
+    	if t in pts:
+    		pts[t].append(txt+1)
+    	else:
+    		pts[t]=[txt+1]
+
+    for i, txt in enumerate(range(n)):
+       	t = (Dependence_power[i], Driving_power[i])
+        plt.annotate(pts[t],t)
+
 
     x1, y1 = [-1, n+1], [n/2, n/2]
     x2, y2 = [n/2, n/2], [-1, n+1]
