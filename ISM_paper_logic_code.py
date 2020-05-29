@@ -16,7 +16,7 @@ class Graph:
             print("\n")
       
       
-    # Prints transitive closure of graph[][] using Floyd Warshall algorithm 
+    # Prints transitive closure of graph[][] 
     def transitiveClosure(self,graph): 
         reach =[i[:] for i in graph] 
         for k in range(self.V): 
@@ -26,9 +26,13 @@ class Graph:
         return reach 
 
 def print_final_reachability(initial, final):
-    # print(initial)
-    for i in range(n): 
-            for j in range(n): 
+	mat = np.matrix(final)
+	with open('outfile.txt','wb') as f:
+		for line in mat:
+			np.savetxt(f, line, fmt='%.f')
+
+	for i in range(n):
+            for j in range(n):
                 if(final[i][j]==1 and initial[i][j]==0):
                     print('1*',end=" ")
                 elif(final[i][j]==1):
@@ -115,6 +119,7 @@ def plot_it(Driving_power, Dependence_power):
     plt.xlabel('Dependence') 
     plt.ylabel('Driving Power') 
     plt.title('Micmac Analysis')
+    plt.grid()
     plt.show()    
 
 n = int(input('Dimension of your Initial Reachability matrix : '))
@@ -135,6 +140,12 @@ for i in range(n):
     intersection_set.append(list(set(common_mat[2*i]) & set(common_mat[2*i + 1])))
 
 levels = find_level(intersection_set, common_mat)
+
+f = open("outfile.txt","a")
+f.write('\n')
+for i in range(n):
+    f.write('Level in TISM for E%d is %d\n'%(i+1,levels[i]))
+f.close()
 
 for i in range(n):
     print('Level in TISM for E%d is %d'%(i+1,levels[i]))
